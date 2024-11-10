@@ -1,9 +1,13 @@
 import { Input, List, RadioChangeEvent } from 'antd';
-import Header from './Header';
-import { ETodoStatus, ITodo, TodoType } from '../types/data';
+import Header from '../Header';
+import { ETodoStatus, ITodo, TodoType } from '../../types/data';
 import { useMemo, useState } from 'react';
-import TodoItem from './Todo';
-import { isType, toggleStatus } from '../helpers/todoHelper';
+import TodoItem from '../Todo';
+import { isType, toggleStatus } from '../../helpers/todoHelper';
+import Content from './Content';
+import Wrapper from './Wrapper';
+import GlobalStyle from './GlobalStyle';
+import Title from './Title';
 
 const App: React.FC = () => {
 	const [type, setType] = useState<TodoType>('all');
@@ -33,31 +37,36 @@ const App: React.FC = () => {
 	};
 
 	return (
-		<div style={{ width: '30%', margin: '0 auto' }}>
-			<div>todos</div>
-			<Input
-				placeholder="What needs to be done?"
-				value={text}
-				onChange={e => setText(e.target.value)}
-				onKeyDown={handleKeyDown}
-			/>
-			<List
-				header={
-					<Header
-						count={data.length}
-						type={type}
-						onChangeType={handleOnChangeType}
-						onAllClear={clearAllCompleted}
+		<>
+			<GlobalStyle />
+			<Wrapper>
+				<Content>
+					<Title>todos</Title>
+					<Input
+						placeholder="What needs to be done?"
+						value={text}
+						onChange={e => setText(e.target.value)}
+						onKeyDown={handleKeyDown}
 					/>
-				}
-				dataSource={data}
-				renderItem={item => (
-					<List.Item>
-						<TodoItem value={item} onToggle={toggleTodo} />
-					</List.Item>
-				)}
-			/>
-		</div>
+					<List
+						header={
+							<Header
+								count={data.length}
+								type={type}
+								onChangeType={handleOnChangeType}
+								onAllClear={clearAllCompleted}
+							/>
+						}
+						dataSource={data}
+						renderItem={item => (
+							<List.Item>
+								<TodoItem value={item} onToggle={toggleTodo} />
+							</List.Item>
+						)}
+					/>
+				</Content>
+			</Wrapper>
+		</>
 	);
 };
 

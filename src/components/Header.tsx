@@ -13,10 +13,10 @@ interface IHeaderProps {
 const Header = ({ count, type, onChangeType, onAllClear }: IHeaderProps) => {
 	return (
 		<Row>
-			<Col span={4}>
+			<Col span={5}>
 				{count} items {getCountText(type)}
 			</Col>
-			<Col span={16} style={{ textAlign: 'center' }}>
+			<Col span={14} style={{ textAlign: 'center' }}>
 				<Radio.Group
 					optionType="button"
 					buttonStyle="solid"
@@ -25,7 +25,7 @@ const Header = ({ count, type, onChangeType, onAllClear }: IHeaderProps) => {
 					value={type}
 				/>
 			</Col>
-			<Col span={4}>
+			<Col span={5}>
 				<Button style={{ float: 'right' }} onClick={onAllClear}>
 					Clear all complited
 				</Button>
