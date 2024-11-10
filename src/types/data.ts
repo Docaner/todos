@@ -7,6 +7,7 @@ export enum TodoType {
 }
 
 export interface Todo {
+	id: number;
 	title: string;
 	type: TodoType;
 }

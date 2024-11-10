@@ -9,7 +9,9 @@ function Header({
 }: HeaderProps): JSX.Element {
 	return (
 		<Row>
-			<Col span={8}>{count} items left</Col>
+			<Col span={8}>
+				{count} items {getCountText(type)}
+			</Col>
 			<Col span={8}>
 				<Radio.Group
 					style={{ width: '100%' }}
@@ -22,7 +24,7 @@ function Header({
 			</Col>
 			<Col span={8}>
 				<Button style={{ float: 'right' }} onClick={onAllClear}>
-					Clear all active
+					Clear all complited
 				</Button>
 			</Col>
 		</Row>
@@ -46,5 +48,16 @@ const options: CheckboxOptionType<TodoType>[] = [
 		style: { width: '33.33%', textAlign: 'center' },
 	},
 ];
+
+function getCountText(type: TodoType) {
+	switch (type) {
+		case TodoType.Active:
+			return 'left';
+		case TodoType.Complited:
+			return 'complited';
+		default:
+			return '';
+	}
+}
 
 export default Header;
