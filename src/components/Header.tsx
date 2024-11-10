@@ -1,63 +1,37 @@
-import { Button, CheckboxOptionType, Col, Radio, Row } from 'antd';
-import { HeaderProps, TodoType } from '../types/data';
+import { Button, Col, Radio, RadioChangeEvent, Row } from 'antd';
+import { TodoType } from '../types/data';
+import { headerOptions } from '../constants/headerOptions';
+import { getCountText } from '../helpers/headerHelper';
 
-function Header({
-	count,
-	type,
-	onChangeType,
-	onAllClear,
-}: HeaderProps): JSX.Element {
+interface IHeaderProps {
+	count: number;
+	type: TodoType;
+	onChangeType: (e: RadioChangeEvent) => void;
+	onAllClear: () => void;
+}
+
+const Header = ({ count, type, onChangeType, onAllClear }: IHeaderProps) => {
 	return (
 		<Row>
-			<Col span={8}>
+			<Col span={4}>
 				{count} items {getCountText(type)}
 			</Col>
-			<Col span={8}>
+			<Col span={16} style={{ textAlign: 'center' }}>
 				<Radio.Group
-					style={{ width: '100%' }}
 					optionType="button"
 					buttonStyle="solid"
 					onChange={onChangeType}
-					options={options}
+					options={headerOptions}
 					value={type}
 				/>
 			</Col>
-			<Col span={8}>
+			<Col span={4}>
 				<Button style={{ float: 'right' }} onClick={onAllClear}>
 					Clear all complited
 				</Button>
 			</Col>
 		</Row>
 	);
-}
-
-const options: CheckboxOptionType<TodoType>[] = [
-	{
-		label: 'All',
-		value: TodoType.All,
-		style: { width: '33.33%', textAlign: 'center' },
-	},
-	{
-		label: 'Active',
-		value: TodoType.Active,
-		style: { width: '33.33%', textAlign: 'center' },
-	},
-	{
-		label: 'Complited',
-		value: TodoType.Complited,
-		style: { width: '33.33%', textAlign: 'center' },
-	},
-];
-
-function getCountText(type: TodoType) {
-	switch (type) {
-		case TodoType.Active:
-			return 'left';
-		case TodoType.Complited:
-			return 'complited';
-		default:
-			return '';
-	}
-}
+};
 
 export default Header;

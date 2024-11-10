@@ -1,20 +1,12 @@
-import { RadioChangeEvent } from 'antd';
-
-export enum TodoType {
-	All,
+export enum ETodoStatus {
 	Active,
 	Complited,
 }
 
-export interface Todo {
+export type TodoType = ETodoStatus | 'all';
+
+export interface ITodo {
 	id: number;
 	title: string;
-	type: TodoType;
-}
-
-export interface HeaderProps {
-	count: number;
-	type: TodoType;
-	onChangeType: (e: RadioChangeEvent) => void;
-	onAllClear: () => void;
+	status: ETodoStatus;
 }

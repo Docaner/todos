@@ -1,39 +1,39 @@
 import { Input, List, RadioChangeEvent } from 'antd';
 import Header from './Header';
-import { Todo, TodoType } from '../types/data';
+import { ETodoStatus, ITodo, TodoType } from '../types/data';
 import { useMemo, useState } from 'react';
-import TodoItem from './TodoItem';
+import TodoItem from './Todo';
+import { isType, toggleStatus } from '../helpers/todoHelper';
 
-function App(): JSX.Element {
-	const [type, setType] = useState<TodoType>(TodoType.All);
-	const [list, setList] = useState<Todo[]>([]);
+const App: React.FC = () => {
+	const [type, setType] = useState<TodoType>('all');
+	const [list, setList] = useState<ITodo[]>([]);
 	const [text, setText] = useState<string>('');
 
-	function handleOnChangeType(e: RadioChangeEvent) {
-		setType(e.target.value);
-	}
+	const clearAllCompleted = () =>
+		setList(l => l.filter(v => v.status !== ETodoStatus.Complited));
 
-	function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-		if (e.key !== 'Enter' || !text.length) return;
-		setList(l => [
-			...l,
-			{ title: text, type: TodoType.Active, id: new Date().getTime() },
-		]);
-		setText('');
-	}
-
-	function handleAllClear() {
-		setList(l => l.filter(v => v.type !== TodoType.Complited));
-	}
-
-	function handleChangeType(value: Todo) {
-		setList(l => l.map(v => (v.id === value.id ? value : v)));
-	}
+	const toggleTodo = (id: number) =>
+		setList(l =>
+			l.map(v => (v.id === id ? { ...v, status: toggleStatus(v.status) } : v))
+		);
 
 	const data = useMemo(() => list.filter(i => isType(i, type)), [list, type]);
 
+	const handleOnChangeType: (e: RadioChangeEvent) => void = e =>
+		setType(e.target.value);
+
+	const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = e => {
+		if (e.key !== 'Enter' || !text.length) return;
+		setList(l => [
+			...l,
+			{ title: text, status: ETodoStatus.Active, id: new Date().getTime() },
+		]);
+		setText('');
+	};
+
 	return (
-		<div>
+		<div style={{ width: '30%', margin: '0 auto' }}>
 			<div>todos</div>
 			<Input
 				placeholder="What needs to be done?"
@@ -47,30 +47,18 @@ function App(): JSX.Element {
 						count={data.length}
 						type={type}
 						onChangeType={handleOnChangeType}
-						onAllClear={handleAllClear}
+						onAllClear={clearAllCompleted}
 					/>
 				}
 				dataSource={data}
 				renderItem={item => (
 					<List.Item>
-						<TodoItem value={item} onChange={handleChangeType} />
+						<TodoItem value={item} onToggle={toggleTodo} />
 					</List.Item>
 				)}
 			/>
 		</div>
 	);
-}
-
-function isType(el: Todo, value: TodoType) {
-	switch (value) {
-		case TodoType.Complited:
-		case TodoType.Active:
-			return el.type === value;
-		case TodoType.All:
-			return true;
-		default:
-			return false;
-	}
-}
+};
 
 export default App;
