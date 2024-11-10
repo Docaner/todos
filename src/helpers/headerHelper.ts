@@ -10,3 +10,14 @@ export const getCountText = (type: TodoType) => {
 			return '';
 	}
 };
+
+export const getTodoTypeText = (type: TodoType) => {
+	switch (type) {
+		case ETodoStatus.Active:
+			return 'active';
+		case ETodoStatus.Complited:
+			return 'complited';
+		case 'all':
+			return 'all';
+	}
+};

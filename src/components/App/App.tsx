@@ -14,8 +14,8 @@ const App: React.FC = () => {
 	const [list, setList] = useState<ITodo[]>([]);
 	const [text, setText] = useState<string>('');
 
-	const clearAllCompleted = () =>
-		setList(l => l.filter(v => v.status !== ETodoStatus.Complited));
+	const clearAll = (type: TodoType) =>
+		setList(l => l.filter(v => !isType(v, type)));
 
 	const toggleTodo = (id: number) =>
 		setList(l =>
@@ -54,7 +54,7 @@ const App: React.FC = () => {
 								count={data.length}
 								type={type}
 								onChangeType={handleOnChangeType}
-								onAllClear={clearAllCompleted}
+								onClear={() => clearAll(type)}
 							/>
 						}
 						dataSource={data}

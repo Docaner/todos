@@ -1,16 +1,16 @@
 import { Button, Col, Radio, RadioChangeEvent, Row } from 'antd';
 import { TodoType } from '../types/data';
 import { headerOptions } from '../constants/headerOptions';
-import { getCountText } from '../helpers/headerHelper';
+import { getCountText, getTodoTypeText } from '../helpers/headerHelper';
 
 interface IHeaderProps {
 	count: number;
 	type: TodoType;
 	onChangeType: (e: RadioChangeEvent) => void;
-	onAllClear: () => void;
+	onClear: () => void;
 }
 
-const Header = ({ count, type, onChangeType, onAllClear }: IHeaderProps) => {
+const Header = ({ count, type, onChangeType, onClear }: IHeaderProps) => {
 	return (
 		<Row>
 			<Col span={5}>
@@ -26,8 +26,8 @@ const Header = ({ count, type, onChangeType, onAllClear }: IHeaderProps) => {
 				/>
 			</Col>
 			<Col span={5}>
-				<Button style={{ float: 'right' }} onClick={onAllClear}>
-					Clear all complited
+				<Button style={{ float: 'right' }} onClick={onClear}>
+					Clear {getTodoTypeText(type)}
 				</Button>
 			</Col>
 		</Row>
