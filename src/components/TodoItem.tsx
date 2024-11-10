@@ -1,6 +1,7 @@
 import { Checkbox, Row } from 'antd';
 import { Todo, TodoType } from '../types/data';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { CSSProperties } from 'react';
 
 function TodoItem({
 	value,
@@ -25,9 +26,14 @@ function TodoItem({
 				onChange={handleChange}
 				style={{ marginInline: '20px' }}
 			/>
-			{title}
+			<span style={getTitleStyleByType(type)}>{title}</span>
 		</Row>
 	);
 }
 
 export default TodoItem;
+
+function getTitleStyleByType(type: TodoType): CSSProperties | undefined {
+	if (type !== TodoType.Complited) return undefined;
+	return { textDecoration: 'line-through gray 1px', color: 'gray' };
+}

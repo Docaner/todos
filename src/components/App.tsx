@@ -27,7 +27,6 @@ function App(): JSX.Element {
 	}
 
 	function handleChangeType(value: Todo) {
-		console.log(list, value);
 		setList(l => l.map(v => (v.id === value.id ? value : v)));
 	}
 
