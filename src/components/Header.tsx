@@ -1,7 +1,12 @@
-import { CheckboxOptionType, Col, Radio, Row } from 'antd';
-import { HeaderProps, TodoListType } from '../types/data';
+import { Button, CheckboxOptionType, Col, Radio, Row } from 'antd';
+import { HeaderProps, TodoType } from '../types/data';
 
-function Header({ count, type, onAllClear }: HeaderProps): JSX.Element {
+function Header({
+	count,
+	type,
+	onChangeType,
+	onAllClear,
+}: HeaderProps): JSX.Element {
 	return (
 		<Row>
 			<Col span={8}>{count} items left</Col>
@@ -10,28 +15,35 @@ function Header({ count, type, onAllClear }: HeaderProps): JSX.Element {
 					style={{ width: '100%' }}
 					optionType="button"
 					buttonStyle="solid"
-					onChange={onAllClear}
+					onChange={onChangeType}
 					options={options}
 					value={type}
 				/>
 			</Col>
-			<Col span={8}>{count} items left</Col>
+			<Col span={8}>
+				<Button style={{ float: 'right' }} onClick={onAllClear}>
+					Clear all active
+				</Button>
+			</Col>
 		</Row>
 	);
 }
 
-const options: CheckboxOptionType<TodoListType>[] = [
+const options: CheckboxOptionType<TodoType>[] = [
 	{
 		label: 'All',
-		value: TodoListType.All,
+		value: TodoType.All,
+		style: { width: '33.33%', textAlign: 'center' },
 	},
 	{
 		label: 'Active',
-		value: TodoListType.Active,
+		value: TodoType.Active,
+		style: { width: '33.33%', textAlign: 'center' },
 	},
 	{
 		label: 'Complited',
-		value: TodoListType.Complited,
+		value: TodoType.Complited,
+		style: { width: '33.33%', textAlign: 'center' },
 	},
 ];
 
