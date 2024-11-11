@@ -1,11 +1,17 @@
 import { CSSProperties } from 'react';
 import { ETodoStatus, ITodo, TodoType } from '../types/data';
 
+const defTitleStyle: CSSProperties = { wordBreak: 'break-word' };
+
 export const getTitleStyleByType = (
 	status: ETodoStatus
 ): CSSProperties | undefined => {
-	if (status !== ETodoStatus.Complited) return undefined;
-	return { textDecoration: 'line-through gray 1px', color: 'gray' };
+	if (status !== ETodoStatus.Complited) return defTitleStyle;
+	return {
+		...defTitleStyle,
+		textDecoration: 'line-through gray 1px',
+		color: 'gray',
+	};
 };
 
 export const isType = (target: ITodo, value: TodoType): boolean => {

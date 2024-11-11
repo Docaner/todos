@@ -24,11 +24,7 @@ const Todo = ({ value }: ITodoProps) => {
 				</Tooltip>
 			</Col>
 			<Col span={20}>
-				<span
-					style={{ ...getTitleStyleByType(status), wordBreak: 'break-word' }}
-				>
-					{title}
-				</span>
+				<span style={getTitleStyleByType(status)}>{title}</span>
 			</Col>
 			<Col
 				span={2}
