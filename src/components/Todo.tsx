@@ -1,20 +1,17 @@
 import { Button, Checkbox, Col, Row, Tooltip } from 'antd';
 import { ETodoStatus, ITodo } from '../types/data';
-import { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { getTitleStyleByType } from '../helpers/todoHelper';
+import { getTitleStyleByType, getTooltipTitleBox } from '../helpers/todoHelper';
 import { DeleteOutlined } from '@ant-design/icons';
+import { useAppDispatch } from '../hooks';
+import { removeTodo, toggleTodo } from '../store/todosSlice';
 
 interface ITodoProps {
 	value: ITodo;
-	onToggle: (id: number) => void;
-	onDelete: (id: number) => void;
 }
 
-const Todo = ({ value, onToggle, onDelete }: ITodoProps) => {
+const Todo = ({ value }: ITodoProps) => {
 	const { title, status, id } = value;
-	const handleChange: ((e: CheckboxChangeEvent) => void) | undefined = () => {
-		onToggle(id);
-	};
+	const dispatch = useAppDispatch();
 
 	return (
 		<Row justify="center" align="middle" style={{ width: '100%' }}>
@@ -22,7 +19,7 @@ const Todo = ({ value, onToggle, onDelete }: ITodoProps) => {
 				<Tooltip title={getTooltipTitleBox(status)}>
 					<Checkbox
 						checked={status === ETodoStatus.Complited}
-						onChange={handleChange}
+						onChange={() => dispatch(toggleTodo(id))}
 					/>
 				</Tooltip>
 			</Col>
@@ -40,7 +37,10 @@ const Todo = ({ value, onToggle, onDelete }: ITodoProps) => {
 				}}
 			>
 				<Tooltip title="Delete">
-					<Button icon={<DeleteOutlined />} onClick={() => onDelete(id)} />
+					<Button
+						icon={<DeleteOutlined />}
+						onClick={() => dispatch(removeTodo(id))}
+					/>
 				</Tooltip>
 			</Col>
 		</Row>
@@ -48,12 +48,3 @@ const Todo = ({ value, onToggle, onDelete }: ITodoProps) => {
 };
 
 export default Todo;
-
-const getTooltipTitleBox = (status: ETodoStatus): string => {
-	switch (status) {
-		case ETodoStatus.Active:
-			return 'Active';
-		case ETodoStatus.Complited:
-			return 'Complited';
-	}
-};

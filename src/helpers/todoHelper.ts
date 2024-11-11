@@ -20,3 +20,12 @@ export const isType = (target: ITodo, value: TodoType): boolean => {
 
 export const toggleStatus = (status: ETodoStatus): ETodoStatus =>
 	status === ETodoStatus.Complited ? ETodoStatus.Active : ETodoStatus.Complited;
+
+export const getTooltipTitleBox = (status: ETodoStatus): string => {
+	switch (status) {
+		case ETodoStatus.Active:
+			return 'Active';
+		case ETodoStatus.Complited:
+			return 'Complited';
+	}
+};

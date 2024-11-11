@@ -1,28 +1,22 @@
 import { Input, List, RadioChangeEvent } from 'antd';
 import Header from '../Header';
-import { ETodoStatus, ITodo, TodoType } from '../../types/data';
+import { TodoType } from '../../types/data';
 import { useMemo, useState } from 'react';
 import TodoItem from '../Todo';
-import { isType, toggleStatus } from '../../helpers/todoHelper';
+import { isType } from '../../helpers/todoHelper';
 import Content from './Content';
 import Wrapper from './Wrapper';
 import GlobalStyle from './GlobalStyle';
 import Title from './Title';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { addTodo, clearAll } from '../../store/todosSlice';
 
 const App: React.FC = () => {
 	const [type, setType] = useState<TodoType>('all');
-	const [list, setList] = useState<ITodo[]>([]);
 	const [text, setText] = useState<string>('');
 
-	const clearAll = (type: TodoType) =>
-		setList(l => l.filter(v => !isType(v, type)));
-
-	const toggleTodo = (id: number) =>
-		setList(l =>
-			l.map(v => (v.id === id ? { ...v, status: toggleStatus(v.status) } : v))
-		);
-
-	const deleteTodo = (id: number) => setList(l => l.filter(v => v.id !== id));
+	const dispatch = useAppDispatch();
+	const list = useAppSelector(state => state.todos.list);
 
 	const data = useMemo(() => list.filter(i => isType(i, type)), [list, type]);
 
@@ -31,10 +25,7 @@ const App: React.FC = () => {
 
 	const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = e => {
 		if (e.key !== 'Enter' || !text.length) return;
-		setList(l => [
-			...l,
-			{ title: text, status: ETodoStatus.Active, id: new Date().getTime() },
-		]);
+		dispatch(addTodo(text));
 		setText('');
 	};
 
@@ -56,17 +47,13 @@ const App: React.FC = () => {
 								count={data.length}
 								type={type}
 								onChangeType={handleOnChangeType}
-								onClear={() => clearAll(type)}
+								onClear={() => dispatch(clearAll(type))}
 							/>
 						}
 						dataSource={data}
 						renderItem={item => (
 							<List.Item>
-								<TodoItem
-									value={item}
-									onToggle={toggleTodo}
-									onDelete={deleteTodo}
-								/>
+								<TodoItem value={item} />
 							</List.Item>
 						)}
 					/>
