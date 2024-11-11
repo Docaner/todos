@@ -10,7 +10,12 @@ interface IHeaderProps {
 	onClear: () => void;
 }
 
-const Header = ({ count, type, onChangeType, onClear }: IHeaderProps) => {
+const Header: React.FC<IHeaderProps> = ({
+	count,
+	type,
+	onChangeType,
+	onClear,
+}) => {
 	return (
 		<Row>
 			<Col span={5}>

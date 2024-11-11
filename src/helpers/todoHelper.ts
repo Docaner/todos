@@ -3,9 +3,7 @@ import { ETodoStatus, ITodo, TodoType } from '../types/data';
 
 const defTitleStyle: CSSProperties = { wordBreak: 'break-word' };
 
-export const getTitleStyleByType = (
-	status: ETodoStatus
-): CSSProperties | undefined => {
+export const getTitleStyleByType = (status: ETodoStatus): CSSProperties => {
 	if (status !== ETodoStatus.Complited) return defTitleStyle;
 	return {
 		...defTitleStyle,

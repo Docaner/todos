@@ -9,7 +9,7 @@ interface ITodoProps {
 	value: ITodo;
 }
 
-const Todo = ({ value }: ITodoProps) => {
+const Todo: React.FC<ITodoProps> = ({ value }) => {
 	const { title, status, id } = value;
 	const dispatch = useAppDispatch();
 
