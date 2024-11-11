@@ -18,5 +18,5 @@ export const isType = (target: ITodo, value: TodoType): boolean => {
 	}
 };
 
-export const toggleStatus = (status: ETodoStatus) =>
+export const toggleStatus = (status: ETodoStatus): ETodoStatus =>
 	status === ETodoStatus.Complited ? ETodoStatus.Active : ETodoStatus.Complited;

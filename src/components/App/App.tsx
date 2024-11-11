@@ -22,6 +22,8 @@ const App: React.FC = () => {
 			l.map(v => (v.id === id ? { ...v, status: toggleStatus(v.status) } : v))
 		);
 
+	const deleteTodo = (id: number) => setList(l => l.filter(v => v.id !== id));
+
 	const data = useMemo(() => list.filter(i => isType(i, type)), [list, type]);
 
 	const handleOnChangeType: (e: RadioChangeEvent) => void = e =>
@@ -60,7 +62,11 @@ const App: React.FC = () => {
 						dataSource={data}
 						renderItem={item => (
 							<List.Item>
-								<TodoItem value={item} onToggle={toggleTodo} />
+								<TodoItem
+									value={item}
+									onToggle={toggleTodo}
+									onDelete={deleteTodo}
+								/>
 							</List.Item>
 						)}
 					/>
